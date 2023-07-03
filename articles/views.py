@@ -14,7 +14,9 @@ from django.views.generic.detail import SingleObjectMixin
 # Create your views here.
 
 class ArticleListView(ListView):
-    model = Article
+    #model = Article
+    queryset = Article.objects.all().order_by("-date") 
+    #can also use ("-pk") to order by id
     template_name = "articles/article_list.html"
 
 class ArticleDetailView(LoginRequiredMixin, DetailView, View):
@@ -96,6 +98,6 @@ class CommentPost(SingleObjectMixin, FormView):
     
     def get_success_url(self):
         article = self.get_object()
-        return reverse("articles/article_detail", kwargs={"pk": article.pk})
+        return reverse(ArticleDetailView, kwargs={"pk": article.pk})
     
 
